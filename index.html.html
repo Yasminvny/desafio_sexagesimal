@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Sexagesimal - 6.° Grado</title>
+    <!-- Fuentes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --secondary: #06B6D4;
+            --accent: #8B5CF6;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --error: #F59E0B;
+            --error-light: #FEF3C7;
+            --text-dark: #1F2937;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #A5B4FC 0%, #67E8F9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            color: var(--text-dark);
+        }
+
+        .main-container {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 720px;
+            padding: 24px;
+            position: relative;
+        }
+
+        /* --- PANTALLA DE BIENVENIDA --- */
+        .welcome-card {
+            text-align: center;
+            padding: 20px 10px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .welcome-avatar {
+            font-size: 3.8rem;
+            margin-bottom: 12px;
+            background-color: #E0E7FF;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px auto;
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        .welcome-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .welcome-message {
+            font-size: 1.15rem;
+            color: #374151;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            font-weight: 700;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 14px 36px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.35);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
+        }
+
+        /* Header compacto */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            border-bottom: 2px dashed #E5E7EB;
+            padding-bottom: 10px;
+        }
+
+        .teacher-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .teacher-avatar {
+            font-size: 2rem;
+            background-color: #E0E7FF;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title-group h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .title-group p {
+            font-size: 0.8rem;
+            color: #6B7280;
+            font-weight: 700;
+        }
+
+        /* Tabs Nav */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            background-color: #F9FAFB;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.9rem;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #F3F4F6;
+        }
+
+        /* Progreso */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #E5E7EB;
+            height: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Visual Cards & Diagrams */
+        .theory-card {
+            background-color: #FAFAFA;
+            border: 2px solid #EEF2FF;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
+        .step-badge {
+            background-color: var(--accent);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .theory-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .theory-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        /* Video Responsive Wrapper */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Aspect Ratio 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 2px solid #E0E7FF;
+            margin: 12px 0;
+            background-color: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Diagrama de Columnas para Suma */
+        .visual-column-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background-color: white;
+            border: 2px solid #E0E7FF;
+            border-radius: 14px;
+            padding: 10px;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .col-box {
+            background-color: #F8FAFC;
+            border-radius: 10px;
+            padding: 8px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .col-header {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.85rem;
+            color: var(--primary);
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+        }
+
+        .col-val {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #1F2937;
+        }
+
+        .col-canje {
+            font-size: 0.78rem;
+            color: #D97706;
+            font-weight: 700;
+            margin-top: 4px;
+            background-color: #FEF3C7;
+            padding: 2px 4px;
+            border-radius: 6px;
+        }
+
+        /* Visual Transform para Resta */
+        .resta-visual-container {
+            background-color: #FFFBEB;
+            border: 2px solid #FCD34D;
+            border-radius: 14px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .transform-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .tag-before { color: #EF4444; background: #FEE2E2; padding: 2px 6px; border-radius: 6px; font-size: 0.75rem; }
+        .tag-arrow { color: var(--accent); font-size: 1.2rem; }
+        .tag-after { color: #10B981; background: #D1FAE5; padding: 2px 6px; border-radius: 6px; font-size: 0.75rem; }
+
+        /* Checkpoint Box */
+        .checkpoint-card {
+            background-color: #F0FDFA;
+            border: 2px dashed #0D9488;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .checkpoint-header {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.98rem;
+            color: #0D9488;
+            margin-bottom: 8px;
+        }
+
+        /* Preguntas & Botones */
+        .question-card {
+            margin-bottom: 10px;
+        }
+
+        .question-number {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--secondary);
+            font-size: 0.98rem;
+            margin-bottom: 4px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 800;
+            line-height: 1.4;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .math-box {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .option-btn {
+            background-color: #F3F4F6;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #E0E7FF;
+            border-color: var(--primary);
+        }
+
+        .option-btn.selected-correct {
+            background-color: var(--success-light);
+            border-color: var(--success);
+            color: #065F46;
+        }
+
+        .option-btn.selected-incorrect {
+            background-color: var(--error-light);
+            border-color: var(--error);
+            color: #92400E;
+        }
+
+        /* Feedback Card compacto */
+        .feedback-card {
+            display: none;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-card.correct {
+            background-color: var(--success-light);
+            border: 2px solid var(--success);
+            color: #065F46;
+        }
+
+        .feedback-card.incorrect {
+            background-color: var(--error-light);
+            border: 2px solid var(--error);
+            color: #78350F;
+        }
+
+        .feedback-header {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .feedback-body {
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        /* Botón de navegación */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.98rem;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background-color: #4338CA;
+        }
+
+        .back-btn {
+            background-color: #6B7280;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background-color: #4B5563;
+        }
+
+        /* Results Screen */
+        .results-card {
+            text-align: center;
+            display: none;
+            padding: 10px 0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .results-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .score-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 12px auto;
+            box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.15);
+        }
+
+        .score-number {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.3rem;
+            line-height: 1;
+        }
+
+        .result-message {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .final-congrats-box {
+            background-color: #D1FAE5;
+            border: 2px dashed #10B981;
+            color: #065F46;
+            padding: 14px;
+            border-radius: 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        }
+
+        .restart-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .restart-btn:hover {
+            background-color: #0891B2;
+        }
+
+        .unlock-banner {
+            background-color: #D1FAE5;
+            border: 2px solid #10B981;
+            color: #065F46;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+
+    <!-- 1. PANTALLA DE BIENVENIDA -->
+    <div id="welcome-view" class="welcome-card">
+        <div class="welcome-avatar">👨‍🏫</div>
+        <h1 class="welcome-title">¡Bienvenido al Desafío Sexagesimal!</h1>
+        <p class="welcome-message">
+            ¡Hola Esteban! Vamos a practicar el Sistema Sexagesimal. Hacé clic en el botón "Comenzar".
+        </p>
+        <button class="start-btn" onclick="startApp()">🚀 Comenzar</button>
+    </div>
+
+    <!-- 2. CONTENIDO PRINCIPAL (TEORÍA + PRÁCTICA) -->
+    <div id="app-main-view" style="display: none;">
+        <!-- Header -->
+        <div class="header">
+            <div class="teacher-badge">
+                <div class="teacher-avatar">👨‍🏫</div>
+                <div class="title-group">
+                    <h1>Desafío Sexagesimal</h1>
+                    <p>Repaso con Videos + Práctica</p>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <span id="score-counter" style="font-family: 'Fredoka'; font-size: 1rem; color: var(--primary); display: none;">Puntos: 0</span>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" id="tab-theory" onclick="switchTab('theory')">📖 1. Aterrizaje Teórico</button>
+            <button class="tab-btn" id="tab-quiz" disabled onclick="switchTab('quiz')">🔒 2. Práctica Interactiva</button>
+        </div>
+
+        <!-- TAB 1: THEORY REVIEW -->
+        <div id="theory-view">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="theory-progress"></div>
+            </div>
+
+            <div id="theory-step-container"></div>
+            <div id="unlock-banner" class="unlock-banner">
+                🎉 ¡Completaste todo el repaso teórico! Ahora podés acceder a la <strong>Práctica Interactiva</strong>.
+                <button class="action-btn" style="display: block; margin: 10px auto 0 auto; width: auto;" onclick="switchTab('quiz')">🚀 Ir a Resolver la Práctica</button>
+            </div>
+        </div>
+
+        <!-- TAB 2: EVALUATION QUIZ -->
+        <div id="quiz-view" style="display: none;">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="quiz-progress"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="q-number">Pregunta 1 de 8</div>
+                <div class="question-text" id="q-text">Cargando pregunta...</div>
+                <div class="math-box" id="q-math" style="display: none;"></div>
+            </div>
+
+            <div class="options-grid" id="options-container"></div>
+
+            <div class="feedback-card" id="feedback-card">
+                <div class="feedback-header" id="feedback-header"></div>
+                <div class="feedback-body" id="feedback-body"></div>
+            </div>
+
+            <!-- Grupo de botones -->
+            <div class="button-group">
+                <button class="back-btn" id="quiz-back-btn" style="display: none;" onclick="prevQuestion()">⬅️ Anterior</button>
+                <button class="action-btn" id="next-btn" style="display: none;" onclick="nextQuestion()">Siguiente Pregunta ➡️</button>
+            </div>
+        </div>
+
+        <!-- RESULTS VIEW -->
+        <div class="results-card" id="results-view">
+            <div style="font-size: 3.5rem; margin-bottom: 5px;">🏆</div>
+            
+            <div class="final-congrats-box">
+                ¡Felicitaciones! Llegaste al final de la práctica. Sigue practicando
+            </div>
+
+            <div class="score-circle">
+                <div class="score-number" id="final-score">0</div>
+                <div style="font-size: 0.75rem; font-weight: 700;">de 8</div>
+            </div>
+            <p class="result-message" id="final-message"></p>
+            <button class="restart-btn" onclick="restartQuiz()">🔄 Reiniciar Práctica</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- LÓGICA DE BIENVENIDA Y APERTURA ---
+    function startApp() {
+        document.getElementById('welcome-view').style.display = 'none';
+        document.getElementById('app-main-view').style.display = 'block';
+        renderTheoryStep();
+    }
+
+    // --- DATA TEORÍA VISUAL CON VIDEOS EMBEBIDOS ---
+    const theorySteps = [
+        {
+            title: "1. La Regla de la 'Base 60'",
+            badge: "Paso 1 de 3: Equivalencias Clave",
+            content: `
+                <p class="theory-content">
+                    Imaginá que los segundos y minutos son <strong>cajas que se llenan a los 60 elementos</strong>. ¡Apenas se juntan 60, armamos 1 paquete nuevo para la columna de la izquierda!
+                </p>
+                <div class="visual-column-grid">
+                    <div class="col-box">
+                        <div class="col-header">Grados (°) / Horas (h)</div>
+                        <div class="col-val">1° (o 1h)</div>
+                    </div>
+                    <div class="col-box" style="background-color: #EEF2FF;">
+                        <div class="col-header">Minutos (')</div>
+                        <div class="col-val">60'</div>
+                    </div>
+                    <div class="col-box">
+                        <div class="col-header">Segundos ('')</div>
+                        <div class="col-val">60''</div>
+                    </div>
+                </div>
+            `,
+            checkpoint: {
+                question: "⚡ Chequeo Relámpago: Si tenés 120 segundos en el cronómetro, ¿cuántos paquetes de minutos armás?",
+                options: [
+                    { text: "12 minutos", correct: false },
+                    { text: "2 minutos enteros (60'' + 60'' = 120'')", correct: true },
+                    { text: "100 minutos", correct: false }
+                ],
+                explanationCorrect: "¡Excelente! 🌟 Como cada paquete vale 60'', 120'' son exactamente 2 minutos enteros sin sobrarle nada.",
+                explanationIncorrect: "¡Revisemos juntos! 💡 En el sistema decimal juntamos de a 100, pero acá juntamos de a <strong>60</strong>. Hacé la cuenta: 60'' es 1 min, y otros 60'' forman el 2.° min. ¡Por eso 120'' son <strong>2 minutos enteros</strong>!"
+            }
+        },
+        {
+            title: "2. Explicación Sumativa (Adición)",
+            badge: "Paso 2 de 3: Adición",
+            content: `
+                <p class="theory-content">
+                    Al sumar en columnas, si una columna llega a 60 o más, le descontamos 60 y le regalamos 1 al vecino de la izquierda. Mira cómo funciona:
+                </p>
+                <!-- Video explicativo interactivo sumativa con dominio youtube-nocookie -->
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/VtKH6Jgkqh4?rel=0&enablejsapi=1" 
+                        title="Suma sexagesimal para niños" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            `,
+            checkpoint: {
+                question: "⚡ Chequeo Relámpago: Sumaste segundos y te dio 70''. ¿Qué ponés abajo en la columna de segundos?",
+                options: [
+                    { text: "Ponés 70'' directamente", correct: false },
+                    { text: "Dejás 10'' y le pasás 1' de regalo a los minutos", correct: true },
+                    { text: "Borrás los segundos y ponés 7°", correct: false }
+                ],
+                explanationCorrect: "¡Tal cual! 🎯 Dejás el sobrante (10'') en los segundos y te llevás 1' para sumar con los minutos.",
+                explanationIncorrect: "¡Cuidado con dejar números mayores a 59! 💡 En la columna nunca pueden quedar 60 o más. Le sacamos 60'' (que viaja como 1' a los minutos) y abajo dejamos la resta: <strong>70'' - 60'' = 10''</strong>."
+            }
+        },
+        {
+            title: "3. Explicación Sustracción (Resta)",
+            badge: "Paso 3 de 3: Sustracción (Énfasis)",
+            content: `
+                <p class="theory-content">
+                    Cuando el número de arriba es menor que el de abajo, pedimos auxilio a la izquierda. La columna vecina pierde 1, pero vos recibís +60 completos.
+                </p>
+                <div class="resta-visual-container">
+                    <div style="font-weight: 800; font-size: 0.9rem; color: #B45309;">Ejemplo: 45° 15' - 12° 40'  (¡A 15' no le puedo sacar 40'!)</div>
+                    
+                    <div class="transform-step">
+                        <div><span class="tag-before">PASO 1</span> El 45° presta 1°</div>
+                        <div class="tag-arrow">➔</div>
+                        <div>Queda en <strong>44°</strong></div>
+                    </div>
+                    
+                    <div class="transform-step">
+                        <div><span class="tag-before">PASO 2</span> El 1° llega convertido</div>
+                        <div class="tag-arrow">➔</div>
+                        <div>Entra como <strong>+60'</strong></div>
+                    </div>
+
+                    <div class="transform-step">
+                        <div><span class="tag-after">RESULTADO</span> Tus minutos nuevos</div>
+                        <div class="tag-arrow">➔</div>
+                        <div><strong>15' + 60' = 75'</strong></div>
+                    </div>
+                </div>
+
+                <!-- Video explicativo interactivo sustracción con dominio youtube-nocookie -->
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube-nocookie.com/embed/S6CKIG1neFE?rel=0&enablejsapi=1" 
+                        title="Resta sexagesimal para niños" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            `,
+            checkpoint: {
+                question: "⚡ Chequeo Relámpago: Tenés 30° 15' y pedís 1° prestado a los 30°. ¿En cuántos minutos se transforma el 15' de arriba?",
+                options: [
+                    { text: "Se transforma en 25'", correct: false },
+                    { text: "Se transforma en 75' (porque 15' + 60' = 75')", correct: true },
+                    { text: "Se queda en 15'", correct: false }
+                ],
+                explanationCorrect: "¡Perfecto! 🚀 El grado desarmado entra como 60 min completos. 15' + 60' = 75'. ¡Ahora sí le podés restar cualquier número menor a 75!",
+                explanationIncorrect: "¡Atención al truco visual! 💡 En el colegio común pedimos 1 y se convierte en 10. Pero en el sistema sexagesimal, el 1° desarmado llega a los minutos valiendo <strong>60'</strong>. Por eso tenés que hacer: <strong>15' + 60' = 75'</strong>."
+            }
+        }
+    ];
+
+    // --- DATA PREGUNTAS PRÁCTICA ---
+    const quizQuestions = [
+        {
+            number: "Pregunta 1 de 8",
+            text: "¡Empecemos por el concepto básico! En el sistema sexagesimal, ¿cuál es la equivalencia correcta?",
+            math: "Equivalencias básicas",
+            options: [
+                { text: "1° = 100'  y  1' = 100''", correct: false },
+                { text: "1° = 60'  y  1' = 60''", correct: true },
+                { text: "1° = 10'  y  1' = 10''", correct: false },
+                { text: "1° = 360'  y  1' = 60''", correct: false }
+            ],
+            explanationCorrect: "¡Excelente! 🌟 Recordá siempre: el sistema sexagesimal agrupa de 60 en 60. Por eso 1° = 60' y 1' = 60''.",
+            explanationIncorrect: "¡Ojo! No confundamos el sistema decimal (de 100) con el sexagesimal (de 60). En el sexagesimal las 'cajas' se llenan con **60**. Por lo tanto: **1° = 60' y 1' = 60''**."
+        },
+        {
+            number: "Pregunta 2 de 8",
+            text: "Suma directa de ángulos. ¿Cuál es el resultado de la siguiente suma?",
+            math: "12° 20' 15'' + 15° 10' 20''",
+            options: [
+                { text: "27° 30' 35''", correct: true },
+                { text: "27° 30' 45''", correct: false },
+                { text: "28° 30' 35''", correct: false },
+                { text: "27° 40' 35''", correct: false }
+            ],
+            explanationCorrect: "¡Genial! 🎯 Sumaste columna por columna: Segundos (15+20=35''), Minutos (20+10=30') y Grados (12+15=27°). Ninguna superó los 60.",
+            explanationIncorrect: "¡A revisar la suma columna por columna! 💡<br>• Segundos: 15'' + 20'' = 35''<br>• Minutos: 20' + 10' = 30'<br>• Grados: 12° + 15° = 27°<br>Resultado correcto: **27° 30' 35''**."
+        },
+        {
+            number: "Pregunta 3 de 8",
+            text: "Suma con canje. Resolvemos la siguiente suma y simplificamos los valores mayores a 60:",
+            math: "20° 35' 40'' + 10° 40' 30''",
+            options: [
+                { text: "30° 75' 70''", correct: false },
+                { text: "31° 16' 10''", correct: true },
+                { text: "31° 15' 10''", correct: false },
+                { text: "32° 16' 10''", correct: false }
+            ],
+            explanationCorrect: "¡Impresionante! 🧠 Dominás el canje: 40''+30''=70'' (quedan 10'' y pasa 1'). 35'+40'+1'=76' (quedan 16' y pasa 1°). 20°+10°+1° = 31°.",
+            explanationIncorrect: "¡Ojo con dejar 60 o más! Paso a paso:<br>1) 40''+30'' = 70''. Como 70'' = 1' y 10'', dejamos **10''** y nos llevamos 1'.<br>2) 35'+40'+1' = 76'. Como 76' = 1° y 16', dejamos **16'** y nos llevamos 1°.<br>3) 20°+10°+1° = **31°**.<br>Resultado final: **31° 16' 10''**."
+        },
+        {
+            number: "Pregunta 4 de 8",
+            text: "Resta con pedido de auxilio. ¿Cuál es el resultado de la siguiente resta?",
+            math: "45° 15' - 12° 40'",
+            options: [
+                { text: "33° 25'", correct: false },
+                { text: "32° 35'", correct: true },
+                { text: "32° 25'", correct: false },
+                { text: "33° 35'", correct: false }
+            ],
+            explanationCorrect: "¡Súper bien! 🚀 Pediste 1° a 45° (quedó en 44°). Sumaste 60' a 15' (quedó en 75'). 75' - 40' = 35' y 44° - 12° = 32°. Resultado: 32° 35'.",
+            explanationIncorrect: "¡Repasemos el auxilio del +60! 💡 Como a 15' no le podés restar 40':<br>1) 45° presta 1° y se queda en **44°**.<br>2) Ese 1° entra a los minutos como 60'. Hacemos: 15' + 60' = **75'**.<br>3) Ahora restamos: 75' - 40' = **35'**.<br>4) Restamos grados: 44° - 12° = **32°**.<br>Resultado: **32° 35'**."
+        },
+        {
+            number: "Pregunta 5 de 8 (Suma de Tiempo)",
+            text: "Martín estudió Matemática durante 1 h 45 min 30 s y Lengua durante 50 min 40 s. ¿Cuánto tiempo estudió en total?",
+            math: "1 h 45 min 30 s + 0 h 50 min 40 s",
+            options: [
+                { text: "2 h 35 min 10 s", correct: false },
+                { text: "2 h 36 min 10 s", correct: true },
+                { text: "1 h 95 min 70 s", correct: false },
+                { text: "2 h 46 min 10 s", correct: false }
+            ],
+            explanationCorrect: "¡Excelente! ⏱️ 30s + 40s = 70s (1 min 10s). 45m + 50m + 1m = 96m (1h 36m). 1h + 1h = 2h. Total: 2 h 36 min 10 s.",
+            explanationIncorrect: "Paso a paso en tiempo: 💡<br>• Segundos: 30s + 40s = 70s = **1 min y 10s** (pasamos 1 min).<br>• Minutos: 45m + 50m + 1m = 96m = **1 h y 36 min** (pasamos 1 h).<br>• Horas: 1h + 1h = **2 h**.<br>Total: **2 h 36 min 10 s**."
+        },
+        {
+            number: "Pregunta 6 de 8 (Resta de Tiempo)",
+            text: "Sofía quiere ver una película que dura 2 h 15 min. Si ya pasaron 1 h 45 min, ¿cuántos minutos le quedan por ver?",
+            math: "2 h 15 min - 1 h 45 min",
+            options: [
+                { text: "30 minutos", correct: true },
+                { text: "45 minutos", correct: false },
+                { text: "1 hora y 30 minutos", correct: false },
+                { text: "20 minutos", correct: false }
+            ],
+            explanationCorrect: "¡Capo/a total! 🎬 Deshiciste 1 hora de las 2 h (quedó en 1 h) y sumaste 60 min a los 15 min (75 min). 75 min - 45 min = 30 min.",
+            explanationIncorrect: "¡Veamos el rescate del tiempo! 🎬 A 15 min no le podemos restar 45 min:<br>1) 2 h presta 1 h y queda en **1 h**.<br>2) Esa hora entra como 60 min: 15 min + 60 min = **75 min**.<br>3) Restamos minutos: 75 min - 45 min = **30 min**.<br>4) Restamos horas: 1 h - 1 h = 0 h.<br>¡Le quedan **30 minutos**!"
+        },
+        {
+            number: "Pregunta 7 de 8 (Resta con Cero)",
+            text: "En Geometría, necesitamos hallar el complemento de 25° 45'. ¿Cuánto le falta para llegar a un ángulo recto (90° 00')?",
+            math: "90° 00' - 25° 45'",
+            options: [
+                { text: "65° 15'", correct: false },
+                { text: "64° 15'", correct: true },
+                { text: "64° 45'", correct: false },
+                { text: "74° 15'", correct: false }
+            ],
+            explanationCorrect: "¡Brillante! 📐 Transformaste 90° 00' pidiendo 1° prestado: quedó en 89° 60'. Luego restaste: 60' - 45' = 15' y 89° - 25° = 64°. ¡Da 64° 15'!",
+            explanationIncorrect: "¡Cuidado cuando hay 00 minutos! 📐 Como a 00' no le podemos restar 45':<br>1) 90° presta 1° y queda en **89°**.<br>2) Ese 1° pasa como 60' a la columna vacía, transformándolo en **89° 60'**.<br>3) Restamos: 60' - 45' = **15'** y 89° - 25° = **64°**.<br>Resultado: **64° 15'**."
+        },
+        {
+            number: "Pregunta 8 de 8 (Desafío Doble Canje)",
+            text: "¡El desafío final! Mateo hizo 2 h 05 min 10 s y Valentín hizo 1 h 10 min 15 s. ¿Por cuánto tiempo de diferencia le ganó Valentín?",
+            math: "2 h 05 min 10 s - 1 h 10 min 15 s",
+            options: [
+                { text: "54 min 55 s", correct: true },
+                { text: "55 min 05 s", correct: false },
+                { text: "1 h 05 min 05 s", correct: false },
+                { text: "44 min 55 s", correct: false }
+            ],
+            explanationCorrect: "¡DESAFÍO SUPERADO! 🥇 Doble auxilio:<br>1) 10s pide a 05m ➔ 04m y 70s - 15s = 55s.<br>2) 04m pide a 2h ➔ 1h y 64m - 10m = 54m.<br>3) 1h - 1h = 0h.<br>Diferencia: 54 min 55 s.",
+            explanationIncorrect: "¡Este ejercicio requiere doble auxilio! 💡<br>1) **Segundos:** 10s pide 1 min a 05m (queda en 04m). Llegan 60s: 70s - 15s = **55s**.<br>2) **Minutos:** 04m pide 1 h a 2h (queda en 1h). Llegan 60m: 64m - 10m = **54m**.<br>3) **Horas:** 1h - 1h = 0h.<br>Diferencia exactísima: **54 min 55 s**."
+        }
+    ];
+
+    // Variables de Estado
+    let currentTheoryStep = 0;
+    let currentQuizQuestion = 0;
+    let score = 0;
+    let quizAnswered = false;
+    let theoryCompleted = false;
+    let quizAnswersState = [];
+
+    // --- FUNCIONES NAVEGACIÓN Y TABS ---
+    function switchTab(tab) {
+        if (tab === 'quiz' && !theoryCompleted) return;
+
+        document.getElementById('tab-theory').className = tab === 'theory' ? 'tab-btn active' : 'tab-btn';
+        document.getElementById('tab-quiz').className = tab === 'quiz' ? 'tab-btn active' : 'tab-btn';
+
+        if (tab === 'theory') {
+            document.getElementById('theory-view').style.display = 'block';
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('results-view').style.display = 'none';
+            document.getElementById('score-counter').style.display = 'none';
+            renderTheoryStep();
+        } else {
+            document.getElementById('theory-view').style.display = 'none';
+            document.getElementById('score-counter').style.display = 'inline';
+            if (currentQuizQuestion < quizQuestions.length) {
+                document.getElementById('quiz-view').style.display = 'block';
+                document.getElementById('results-view').style.display = 'none';
+                loadQuizQuestion();
+            } else {
+                showResults();
+            }
+        }
+    }
+
+    // --- LÓGICA TEORÍA ---
+    function renderTheoryStep() {
+        const step = theorySteps[currentTheoryStep];
+        const progressPct = ((currentTheoryStep + 1) / theorySteps.length) * 100;
+        document.getElementById('theory-progress').style.width = `${progressPct}%`;
+
+        const hasBack = currentTheoryStep > 0;
+
+        const container = document.getElementById('theory-step-container');
+        container.innerHTML = `
+            <div class="theory-card">
+                <span class="step-badge">${step.badge}</span>
+                <div class="theory-title">${step.title}</div>
+                ${step.content}
+
+                <div class="checkpoint-card">
+                    <div class="checkpoint-header">⚡ Chequeo de Aprendizaje</div>
+                    <div style="font-weight: 700; margin-bottom: 10px; font-size: 0.95rem;">${step.checkpoint.question}</div>
+                    <div class="options-grid" id="theory-options"></div>
+                    <div id="theory-feedback" class="feedback-card"></div>
+                    
+                    <div class="button-group">
+                        ${hasBack ? `<button class="back-btn" onclick="prevTheoryStep()">⬅️ Atrás</button>` : ''}
+                        <button class="action-btn" id="theory-next-btn" style="display: none;" onclick="nextTheoryStep()">
+                            ${currentTheoryStep < theorySteps.length - 1 ? 'Siguiente Paso Teórico ➔' : '¡Completar Repaso Teórico! 🎉'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const optionsContainer = document.getElementById('theory-options');
+        step.checkpoint.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span>${opt.text}</span>`;
+            btn.onclick = () => selectTheoryOption(idx);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectTheoryOption(index) {
+        const step = theorySteps[currentTheoryStep];
+        const selected = step.checkpoint.options[index];
+        const btns = document.querySelectorAll('#theory-options .option-btn');
+
+        btns.forEach(b => b.disabled = true);
+
+        const feedbackEl = document.getElementById('theory-feedback');
+        if (selected.correct) {
+            btns[index].classList.add('selected-correct');
+            feedbackEl.className = "feedback-card correct";
+            feedbackEl.innerHTML = `<div class="feedback-header">🎉 ¡Respuesta Correcta!</div><div class="feedback-body">${step.checkpoint.explanationCorrect}</div>`;
+        } else {
+            btns[index].classList.add('selected-incorrect');
+            step.checkpoint.options.forEach((opt, i) => {
+                if (opt.correct) btns[i].classList.add('selected-correct');
+            });
+            feedbackEl.className = "feedback-card incorrect";
+            feedbackEl.innerHTML = `<div class="feedback-header">💡 Explicación del Profe:</div><div class="feedback-body">${step.checkpoint.explanationIncorrect}</div>`;
+        }
+
+        feedbackEl.style.display = 'block';
+        document.getElementById('theory-next-btn').style.display = 'inline-block';
+    }
+
+    function prevTheoryStep() {
+        if (currentTheoryStep > 0) {
+            currentTheoryStep--;
+            renderTheoryStep();
+        }
+    }
+
+    function nextTheoryStep() {
+        if (currentTheoryStep < theorySteps.length - 1) {
+            currentTheoryStep++;
+            renderTheoryStep();
+        } else {
+            theoryCompleted = true;
+            const quizBtn = document.getElementById('tab-quiz');
+            quizBtn.disabled = false;
+            quizBtn.innerHTML = "📝 2. Práctica Interactiva";
+            document.getElementById('theory-step-container').style.display = 'none';
+            document.getElementById('unlock-banner').style.display = 'block';
+        }
+    }
+
+    // --- LÓGICA QUIZ PRÁCTICA ---
+    function loadQuizQuestion() {
+        const q = quizQuestions[currentQuizQuestion];
+
+        const progressPct = (currentQuizQuestion / quizQuestions.length) * 100;
+        document.getElementById('quiz-progress').style.width = `${progressPct}%`;
+
+        document.getElementById('q-number').innerText = q.number;
+        document.getElementById('q-text').innerText = q.text;
+
+        const mathBox = document.getElementById('q-math');
+        if (q.math) {
+            mathBox.style.display = "block";
+            mathBox.innerText = q.math;
+        } else {
+            mathBox.style.display = "none";
+        }
+
+        const feedbackCard = document.getElementById('feedback-card');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('quiz-back-btn');
+
+        backBtn.style.display = currentQuizQuestion > 0 ? "inline-block" : "none";
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = "";
+
+        const savedAnswer = quizAnswersState[currentQuizQuestion];
+
+        if (savedAnswer !== undefined) {
+            quizAnswered = true;
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.disabled = true;
+                btn.innerHTML = `<span>${opt.text}</span>`;
+
+                if (idx === savedAnswer) {
+                    if (opt.correct) {
+                        btn.classList.add('selected-correct');
+                        btn.innerHTML += ' <span>✅</span>';
+                    } else {
+                        btn.classList.add('selected-incorrect');
+                        btn.innerHTML += ' <span>❌</span>';
+                    }
+                } else if (opt.correct) {
+                    btn.classList.add('selected-correct');
+                    btn.innerHTML += ' <span>👈 ¡Era esta!</span>';
+                }
+                optionsContainer.appendChild(btn);
+            });
+
+            const selectedOpt = q.options[savedAnswer];
+            if (selectedOpt.correct) {
+                feedbackCard.className = "feedback-card correct";
+                document.getElementById('feedback-header').innerHTML = "<span>🎉 ¡Excelente!</span>";
+                document.getElementById('feedback-body').innerHTML = q.explanationCorrect;
+            } else {
+                feedbackCard.className = "feedback-card incorrect";
+                document.getElementById('feedback-header').innerHTML = "<span>💡 Explicación del Profe paso a paso:</span>";
+                document.getElementById('feedback-body').innerHTML = q.explanationIncorrect;
+            }
+            feedbackCard.style.display = "block";
+            nextBtn.style.display = "inline-block";
+        } else {
+            quizAnswered = false;
+            feedbackCard.style.display = "none";
+            nextBtn.style.display = "none";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span>${opt.text}</span>`;
+                btn.onclick = () => selectQuizOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+    }
+
+    function selectQuizOption(index) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+
+        quizAnswersState[currentQuizQuestion] = index;
+
+        const q = quizQuestions[currentQuizQuestion];
+        const selectedOpt = q.options[index];
+        const optionButtons = document.querySelectorAll('#options-container .option-btn');
+
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        const feedbackCard = document.getElementById('feedback-card');
+        const feedbackHeader = document.getElementById('feedback-header');
+        const feedbackBody = document.getElementById('feedback-body');
+
+        if (selectedOpt.correct) {
+            score++;
+            document.getElementById('score-counter').innerText = `Puntos: ${score}`;
+            optionButtons[index].classList.add('selected-correct');
+            optionButtons[index].innerHTML += ' <span>✅</span>';
+
+            feedbackCard.className = "feedback-card correct";
+            feedbackHeader.innerHTML = "<span>🎉 ¡Excelente!</span>";
+            feedbackBody.innerHTML = q.explanationCorrect;
+        } else {
+            optionButtons[index].classList.add('selected-incorrect');
+            optionButtons[index].innerHTML += ' <span>❌</span>';
+
+            q.options.forEach((opt, i) => {
+                if (opt.correct) {
+                    optionButtons[i].classList.add('selected-correct');
+                    optionButtons[i].innerHTML += ' <span>👈 ¡Era esta!</span>';
+                }
+            });
+
+            feedbackCard.className = "feedback-card incorrect";
+            feedbackHeader.innerHTML = "<span>💡 Explicación del Profe paso a paso:</span>";
+            feedbackBody.innerHTML = q.explanationIncorrect;
+        }
+
+        feedbackCard.style.display = "block";
+        document.getElementById('next-btn').style.display = "inline-block";
+    }
+
+    function prevQuestion() {
+        if (currentQuizQuestion > 0) {
+            currentQuizQuestion--;
+            loadQuizQuestion();
+        }
+    }
+
+    function nextQuestion() {
+        currentQuizQuestion++;
+        if (currentQuizQuestion < quizQuestions.length) {
+            loadQuizQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-progress').style.width = "100%";
+        document.getElementById('quiz-view').style.display = "none";
+
+        const resultsView = document.getElementById('results-view');
+        resultsView.style.display = "block";
+
+        document.getElementById('final-score').innerText = score;
+
+        const messageEl = document.getElementById('final-message');
+        if (score === 8) {
+            messageEl.innerHTML = "<strong>¡Nota: 10 (Sobresaliente)! 🌟🏆</strong><br>¡Puntaje perfecto! Dominás la suma y la resta con canje de 60.";
+        } else if (score >= 6) {
+            messageEl.innerHTML = "<strong>¡Nota: Distinguido (8-9)! 👏</strong><br>¡Muy buen desempeño! Tenés súper clara la técnica.";
+        } else if (score >= 4) {
+            messageEl.innerHTML = "<strong>¡Nota: Bueno (6-7)! 👍</strong><br>Aprobaste la práctica, pero podés seguir repasando los canjes.";
+        } else {
+            messageEl.innerHTML = "<strong>¡A no bajar los brazos! 💪</strong><br>Podés volver a revisar los esquemas de la teoría e intentarlo de nuevo.";
+        }
+    }
+
+    function restartQuiz() {
+        currentQuizQuestion = 0;
+        score = 0;
+        quizAnswersState = [];
+        document.getElementById('score-counter').innerText = "Puntos: 0";
+        switchTab('quiz');
+    }
+</script>
+</body>
+</html>
